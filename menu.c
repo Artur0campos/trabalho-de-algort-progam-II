@@ -1,158 +1,176 @@
 #include <stdio.h>
 #include "menu.h"
-#include "produto.h"
 #include "cliente.h"
+#include "produto.h"
+#include "venda.h"
+#include "relatorios.h"
+#include "util.h"
 
-/* static = só o menu principal é visível para fora deste arquivo */
-static int menu_produto(void){
-
-    int option_produto;
-    while(1){
+/* Menu secundário para gerenciamento de clientes */
+static void menu_cliente(void) {
+    while (1) {
+        printf("\n========================================\n");
+        printf("         GERENCIAMENTO DE CLIENTES      \n");
         printf("========================================\n");
-        printf("       GERENCIAMENTO DE PRODUTO\n");
-        printf("========================================\n");
+        printf("1 - Cadastrar cliente\n");
+        printf("2 - Listar clientes\n");
+        printf("3 - Buscar cliente (Código, Nome, CPF)\n");
+        printf("4 - Alterar cliente\n");
+        printf("5 - Excluir cliente\n");
+        printf("0 - Voltar ao menu principal\n");
 
-        printf("1. Cadastrar produtos\n 2. Listar produtos\n 3. Buscar produto\n 4. Alterar produto\n 5. Excluir produto\n 0. Voltar\n ");
+        int op = ler_inteiro("Escolha uma opção: ");
 
-        if (scanf("%d", &option_produto) != 1) {
-            printf("\nEntrada inválida! Digite apenas números.\n");
-
-            while (getchar() != '\n');
-            continue;
-
-        }
-        getchar();
-
-        switch(option_produto){
+        switch (op) {
             case 1:
-                printf("você escolheu a opção %d produto \n", option_produto);
-                Produto novo_produto = cadastrar_produto();
-                armazenar_produto(novo_produto);
+                cadastrar_cliente_menu();
                 break;
             case 2:
-                printf("você escolheu a opção %d produto \n", option_produto);
-                listar_produtos();
-                break;
-            case 3:
-                printf("você escolheu a opção %d produto \n", option_produto);
-                buscar_produto();
-                break;
-            case 4:
-                printf("você escolheu a opção %d produto \n", option_produto);
-                alterar_produto();
-                break;
-            case 5:
-                printf("você escolheu a opção %d produto \n", option_produto);
-                excluir_produto();
-                break;
-            case 0:
-                printf("você escolheu a opção %d produto \n", option_produto);
-                printf("Até a próxima!\n");
-                return 0;
-            default:
-                printf("você não escolheu um número válido!, tente novamente!\n");
-                break;
-        }
-
-    }
-}
-
-
-static int menu_cliente(void){
-
-    int option_cliente;
-    while(1){
-        printf("========================================\n");
-        printf("       GERENCIAMENTO DE CLIENTES\n");
-        printf("========================================\n");
-
-        printf("1. Cadastrar cliente\n 2. Listar clientes\n 3. Buscar cliente\n 4. Alterar cliente\n 5. Excluir cliente\n 0. Voltar\n ");
-
-        if (scanf("%d", &option_cliente) != 1) {
-            printf("\nEntrada inválida! Digite apenas números.\n");
-
-            while (getchar() != '\n');
-            continue;
-
-        }
-        getchar();
-
-        switch(option_cliente){
-            case 1:
-                printf("você escolheu a opção %d cliente \n", option_cliente);
-                Cliente novo_cliente = cadastrar_cliente();
-                armazenar_cliente(novo_cliente);
-                break;
-            case 2:
-                printf("você escolheu a opção %d cliente \n", option_cliente);
                 listar_clientes();
                 break;
             case 3:
-                printf("você escolheu a opção %d cliente \n", option_cliente);
-                buscar_cliente();
+                buscar_cliente_menu();
                 break;
             case 4:
-                printf("você escolheu a opção %d cliente \n", option_cliente);
                 alterar_cliente();
                 break;
             case 5:
-                printf("você escolheu a opção %d cliente \n", option_cliente);
                 excluir_cliente();
                 break;
             case 0:
-                printf("você escolheu a opção %d cliente \n", option_cliente);
-                printf("Até a próxima!\n");
-                return 0;
+                return;
             default:
-                printf("você não escolheu um número válido!, tente novamente!\n");
+                printf("\nOpção inválida! Escolha uma opção entre 0 e 5.\n");
                 break;
         }
-
     }
 }
 
-int menu(void){
-
-    while (1){
-        int option;
+/* Menu secundário para gerenciamento de produtos */
+static void menu_produto(void) {
+    while (1) {
+        printf("\n========================================\n");
+        printf("         GERENCIAMENTO DE PRODUTOS      \n");
         printf("========================================\n");
-        printf("SISTEMA DE GERENCIAMENTO EMPRESARIAL\n");
-        printf("========================================\n");
+        printf("1 - Cadastrar produto\n");
+        printf("2 - Listar produtos\n");
+        printf("3 - Buscar produto (Código, Nome, Categoria)\n");
+        printf("4 - Alterar produto\n");
+        printf("5 - Excluir produto\n");
+        printf("6 - Consultar estoque\n");
+        printf("7 - Identificar produtos com estoque baixo\n");
+        printf("0 - Voltar ao menu principal\n");
 
-        printf(" 1 - Gerenciar Clientes\n 2 - Gerenciar Produtos\n 3 - Gerenciar Vendas\n 4 - Consultas e Relatórios\n 5 - Estatísticas\n 0 - Sair\n ");
+        int op = ler_inteiro("Escolha uma opção: ");
 
-        if (scanf("%d", &option) != 1) {
-            printf("\nEntrada inválida! Digite apenas números.\n\n");
-
-            while (getchar() != '\n');
-            continue;
-
-        }
-
-        switch(option){
+        switch (op) {
             case 1:
-                printf("você escolheu a opção %d \n", option);
+                cadastrar_produto_menu();
+                break;
+            case 2:
+                listar_produtos();
+                break;
+            case 3:
+                buscar_produto_menu();
+                break;
+            case 4:
+                alterar_produto();
+                break;
+            case 5:
+                excluir_produto();
+                break;
+            case 6:
+                consultar_estoque();
+                break;
+            case 7:
+                identificar_estoque_baixo();
+                break;
+            case 0:
+                return;
+            default:
+                printf("\nOpção inválida! Escolha uma opção entre 0 e 7.\n");
+                break;
+        }
+    }
+}
+
+/* Menu secundário para gerenciamento de vendas */
+static void menu_venda(void) {
+    while (1) {
+        printf("\n========================================\n");
+        printf("          GERENCIAMENTO DE VENDAS       \n");
+        printf("========================================\n");
+        printf("1 - Registrar nova venda\n");
+        printf("2 - Listar vendas realizadas\n");
+        printf("3 - Buscar venda (Código da venda ou cliente)\n");
+        printf("0 - Voltar ao menu principal\n");
+
+        int op = ler_inteiro("Escolha uma opção: ");
+
+        switch (op) {
+            case 1:
+                registrar_venda();
+                break;
+            case 2:
+                listar_vendas();
+                break;
+            case 3:
+                buscar_venda();
+                break;
+            case 0:
+                return;
+            default:
+                printf("\nOpção inválida! Escolha uma opção entre 0 e 3.\n");
+                break;
+        }
+    }
+}
+
+/* Menu principal do sistema */
+int menu(void) {
+    /* Carrega os dados persistidos dos arquivos binários */
+    carregar_clientes();
+    carregar_produtos();
+    carregar_vendas();
+
+    while (1) {
+        printf("\n========================================\n");
+        printf("     SISTEMA DE GESTÃO EMPRESARIAL      \n");
+        printf("========================================\n");
+        printf("1 - Gerenciar Clientes\n");
+        printf("2 - Gerenciar Produtos\n");
+        printf("3 - Gerenciar Vendas\n");
+        printf("4 - Consultas e Relatórios\n");
+        printf("5 - Estatísticas\n");
+        printf("0 - Sair\n");
+        printf("========================================\n");
+
+        int op = ler_inteiro("Escolha uma opção: ");
+
+        switch (op) {
+            case 1:
                 menu_cliente();
                 break;
             case 2:
-                printf("você escolheu a opção %d \n", option);
                 menu_produto();
                 break;
             case 3:
-                printf("você escolheu a opção %d \n", option);
+                menu_venda();
                 break;
             case 4:
-                printf("você escolheu a opção %d \n", option);
+                menu_consultas_relatorios();
                 break;
             case 5:
-                printf("você escolheu a opção %d \n", option);
+                menu_estatisticas();
                 break;
             case 0:
-                printf("você escolheu a opção %d\n", option);
-                printf("Até a próxima!\n");
+                salvar_clientes();
+                salvar_produtos();
+                salvar_vendas();
+                printf("\nDados salvos com sucesso! Encerrando o sistema. Até logo!\n");
                 return 0;
             default:
-                printf("você não escolheu um número válido!, tente novamente!\n");
+                printf("\nOpção inválida! Escolha um número entre 0 e 5.\n");
                 break;
         }
     }
